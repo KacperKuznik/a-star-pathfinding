@@ -1,7 +1,7 @@
 import tkinter as tk
 from PIL import ImageTk, Image
 from a_star import A_Star
-
+import time
 class Gui:
     def __init__(self, board: list, size: int):
         self.board = board
@@ -58,13 +58,17 @@ class Gui:
                 self.label.config(text=status)
                 if status == "Found":
                     self.started = False
-                    for node_pos in nodes:
+                    for node_pos in nodes[::-1]:
                         self.frames[node_pos[0]][node_pos[1]].config(bg='purple')
+                        self.window.update_idletasks()
+                        self.window.update()
+                        time.sleep(0.01)
                 elif status == "Searching":
                     for node in nodes:
                         node_pos = node.pos
                         green = max(255 - node.g * 10, 50)
                         self.frames[node_pos[0]][node_pos[1]].config(bg=f'#{255:02x}{green:02x}{0:02x}')
+
                 else:
                     self.started = False
 
